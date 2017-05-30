@@ -54,13 +54,13 @@ function areaChoose(params){
         }
     }
     //on事件绑定
-    for (var i = 0;i < this.data.length-1; i ++){
+    for (var i = 0;i < this.data.length-1; ){
         $(this.data[i].node).on("change",(function(j){
 
             return function(){
-                that.getData(++j)
+                that.getData(j)
             }
-        })(i));
+        })(++i));
     }
 
 }
