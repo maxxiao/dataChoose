@@ -78,8 +78,12 @@ areaChoose.prototype = {
             .success(function (responseText) {
 
                 that.resetSelect(index)
-                var data = JSON.parse( responseText.substr( responseText.indexOf("{")));
-                that.setOption(index,data.res)
+                var data = responseText
+                if(typeof  responseText == "string"){
+
+                    data = JSON.parse( responseText.substr( responseText.indexOf("{")));
+                }
+                that.setOption(index,data.data)
 
             })
     },
