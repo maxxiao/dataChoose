@@ -46,9 +46,16 @@ function areaChoose(params){
 
         var j = 0
         if(that.data[i].defaultVal) {
+
+            var val = that.data[i].defaultVal;
+            if(typeof that.data[i].defaultVal 'function'){
+
+                val = that.data[i].defaultVal();
+            }
+
             deferred = deferred.then(function () {
 
-                that.data[j].node.val(that.data[j].defaultVal)
+                that.data[j].node.val(val)
                 if(++j < that.data.length)return that.getData(j)
             });
         }
@@ -78,12 +85,24 @@ areaChoose.prototype = {
             .success(function (responseText) {
 
                 that.resetSelect(index)
-                var data = responseText
-                if(typeof  responseText == "string"){
 
-                    data = JSON.parse( responseText.substr( responseText.indexOf("{")));
+                var tempData = {}
+                if(that.setData){
+
+                    tempData = that.setData();
+                }else{
+
+                    var data = responseText
+                    if(typeof  responseText == "string"){
+
+                        data = JSON.parse( responseText.substr( responseText.indexOf("{")));
+                    }
+
+                    tempData = data.data;
+
                 }
-                that.setOption(index,data.data)
+
+                that.setOption(index,tempData)
 
             })
     },
